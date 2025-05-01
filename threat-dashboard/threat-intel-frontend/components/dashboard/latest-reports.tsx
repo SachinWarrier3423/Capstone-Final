@@ -1,97 +1,44 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { StatusCard } from "@/components/dashboard/status-card"
-import { Badge } from "@/components/ui/badge"
-import { FileText } from "lucide-react"
-import { Skeleton } from "@/components/ui/skeleton"
-
-interface Report {
-  id: string
-  title: string
-  time: string
-  category: string
-  categoryColor: string
-}
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export function LatestReports() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [reports, setReports] = useState<Report[]>([])
+  const [reports, setReports] = useState<any[]>([])
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchReports = async () => {
       try {
-        // In a real app, this would be an API call
-        // const response = await fetch('/api/reports')
-        // const data = await response.json()
-
-        // Simulating API call
-        await new Promise((resolve) => setTimeout(resolve, 1100))
-        setReports([
+        const token = localStorage.getItem("token")
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/alerts`,
           {
-            id: "1",
-            title: "Weekly Intel, May 5th, 2020",
-            time: "2 HOURS AGO",
-            category: "Executive Perspective",
-            categoryColor: "bg-blue-600",
-          },
-          {
-            id: "2",
-            title: "Seeing Isn't Believing: Leveraging Deepfakes in...",
-            time: "2 HOURS AGO",
-            category: "Trends And Forecasting",
-            categoryColor: "bg-purple-600",
-          },
-          {
-            id: "3",
-            title: "Seeing Isn't Believing: Leveraging Deepfakes in the 2020...",
-            time: "2 HOURS AGO",
-            category: "Vulnerability",
-            categoryColor: "bg-red-600",
-          },
-          {
-            id: "4",
-            title: "TrickBot Draws on Dyre Code but May Represent Distinct...",
-            time: "2 HOURS AGO",
-            category: "Vulnerability",
-            categoryColor: "bg-red-600",
-          },
-        ])
-      } catch (error) {
-        console.error("Failed to fetch data:", error)
-      } finally {
-        setIsLoading(false)
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        setReports(res.data || [])
+      } catch (err) {
+        console.error("Error fetching reports", err)
       }
     }
-
-    fetchData()
+    fetchReports()
   }, [])
 
   return (
-    <StatusCard title="Latest Reports" icon={<FileText className="h-4 w-4" />}>
-      <div className="space-y-4">
-        {isLoading
-          ? Array(4)
-              .fill(0)
-              .map((_, i) => (
-                <div key={i} className="space-y-2">
-                  <Skeleton className="h-4 w-20" />
-                  <Skeleton className="h-5 w-full" />
-                  <Skeleton className="h-6 w-32 rounded-full" />
-                </div>
-              ))
-          : reports.map((report) => (
-              <div key={report.id} className="space-y-1 group">
-                <div className="text-xs text-muted-foreground">{report.time}</div>
-                <div className="text-sm group-hover:text-primary transition-colors cursor-pointer">{report.title}</div>
-                <Badge
-                  className={`${report.categoryColor} hover:${report.categoryColor} bg-opacity-80 backdrop-blur-sm border border-white/10`}
-                >
-                  {report.category}
-                </Badge>
-              </div>
-            ))}
-      </div>
-    </StatusCard>
+    <Card>
+      <CardHeader>
+        <CardTitle>Latest Reports</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ul>
+          {reports.slice(0, 5).map((r, i) => (
+            <li key={i}>{r.source} - {r.timestamp?.split("T")[0]}</li>
+          ))}
+        </ul>
+      </CardContent>
+    </Card>
   )
 }
