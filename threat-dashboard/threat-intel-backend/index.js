@@ -47,8 +47,13 @@ app.get("/", (_, res) => {
   res.send("✅ Threat Intelligence API is running.");
 });
 
+<<<<<<< HEAD
 // 10. Start the server
 const PORT = process.env.PORT || 5000;
+=======
+// 9. Start the server
+const PORT = process.env.PORT || 8080;
+>>>>>>> c5cb724ffcc3eb64e4b28bc8aca27eef988a8fed
 app.listen(PORT, () => {
   console.log(`🚀 Server is running at http://localhost:${PORT}`);
 });
