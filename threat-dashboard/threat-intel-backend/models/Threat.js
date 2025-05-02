@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const threatSchema = new mongoose.Schema({
   ip: String,                  // the IP you queried
@@ -8,4 +8,4 @@ const threatSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model("Threat", threatSchema);
+export const Threat = mongoose.model("Threat", threatSchema);

@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
-function authenticateJWT(req, res, next) {
+export function authenticateJWT(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).send("Missing token");
 
@@ -13,11 +13,9 @@ function authenticateJWT(req, res, next) {
   }
 }
 
-function authorizeRoles(roles) {
+export function authorizeRoles(roles) {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) return res.status(403).send("Forbidden");
     next();
   };
 }
-
-module.exports = { authenticateJWT, authorizeRoles };

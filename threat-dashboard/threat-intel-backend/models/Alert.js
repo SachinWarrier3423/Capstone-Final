@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const alertSchema = new mongoose.Schema({
   message: String,             // descriptive alert text
-  level: { type: String, enum: ["Low", "Medium", "High"], default: "Low" },
-  relatedIP: String,           // the IP this alert refers to
-  date: { type: Date, default: Date.now }
+  severity: { type: String, enum: ["Low", "Medium", "High", "Critical"], default: "Low" },
+  source: String,             // where this alert came from
+  timestamp: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model("Alert", alertSchema);
+export const Alert = mongoose.model("Alert", alertSchema);

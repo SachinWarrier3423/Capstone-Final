@@ -3,7 +3,13 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', Arial, sans-serif;
+  background-color: hsl(222, 47%, 15%); /* Slightly lighter background for better contrast */
+  color: hsl(210, 40%, 98%); /* Maintain high contrast text */
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 @layer utilities {
@@ -91,4 +97,73 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Enhanced card styles */
+.dashboard-card {
+  @apply bg-card border border-white/20 rounded-lg shadow-lg overflow-hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+  transform: translateY(-4px);
+}
+
+/* Updated button styles */
+button {
+  @apply px-4 py-2 rounded-md text-sm font-medium;
+  background-color: hsl(217, 91%, 65%); /* Slightly brighter button */
+  color: hsl(210, 40%, 98%);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: hsl(217, 91%, 75%);
+  transform: scale(1.1);
+}
+
+/* Updated severity badge styles */
+.severity-badge {
+  @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold;
+}
+
+.severity-badge-critical {
+  @apply bg-red-500 text-white;
+}
+
+.severity-badge-high {
+  @apply bg-orange-400 text-white;
+}
+
+.severity-badge-medium {
+  @apply bg-yellow-300 text-black;
+}
+
+.severity-badge-low {
+  @apply bg-blue-400 text-white;
+}
+
+.severity-badge-info {
+  @apply bg-gray-400 text-white;
+}
+
+/* Updated scrollbar styles */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
